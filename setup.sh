@@ -25,6 +25,7 @@ mkdir -p ~/.vim/{backups,swapfiles}
 cp ${dl_dir}/vimrc ~/.vimrc
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim -c ':PlugInstall | :q | :q'
 
 # Setup bash
 cat ${dl_dir}/bash >> ~/.bashrc
