@@ -20,13 +20,6 @@ chmod 700 /.ssh
 # Setup screen
 cp ${dl_dir}/screenrc ~/.screenrc
 
-# Setup vim
-mkdir -p ~/.vim/{backups,swapfiles,autoload}
-cp ${dl_dir}/vimrc ~/.vimrc
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim -c ':PlugInstall | :q | :q'
-
 # install nodejs
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
 . ~/.bashrc
@@ -51,3 +44,12 @@ git config --global color.diff.whitespace "red reverse"
 
 # Setup bash
 cat ${dl_dir}/bash >> ~/.bashrc
+
+# Setup vim. This must go last because vim kill the script for some reason
+mkdir -p ~/.vim/{backups,swapfiles,autoload}
+cp ${dl_dir}/vimrc ~/.vimrc
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+vim -c ':PlugInstall | :q | :q'
+
+
