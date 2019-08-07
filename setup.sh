@@ -21,7 +21,7 @@ chmod 700 /.ssh
 cp ${dl_dir}/screenrc ~/.screenrc
 
 # Setup vim
-mkdir -p ~/.vim/{backups,swapfiles}
+mkdir -p ~/.vim/{backups,swapfiles,autoload}
 cp ${dl_dir}/vimrc ~/.vimrc
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
