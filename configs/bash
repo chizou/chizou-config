@@ -5,4 +5,5 @@ alias l='ls -CF'
 alias diff=colordiff
 export EDITOR=/usr/bin/vim
 export QUOTING_STYLE=literal
+[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 set -o vi
