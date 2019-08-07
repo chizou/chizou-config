@@ -3,11 +3,11 @@
 download_files() {
     base_url='https://raw.githubusercontent.com/chizou/chizou-config/master'
     for filename in $(curl --silent ${base_url}/file_list); do
-        wget ${base_url}/configs/${filename} -o ~/.config-downloads/
+        wget ${base_url}/configs/${filename} -P ~/.config-downloads/
     done
 }
 
-dl_dir='~/.config-downloads'
+dl_dir=~/.config-downloads
 mkdir ${dl_dir}
 download_files
 
