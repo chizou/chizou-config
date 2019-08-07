@@ -1,7 +1,7 @@
 #!/bin/bash
 
 download_files() {
-    base_url='https://raw.githubusercontent.com/chizou/chizou-configs/master'
+    base_url='https://raw.githubusercontent.com/chizou/chizou-config/master'
     for filename in $(curl --silent ${base_url}/file_list); do
         wget ${base_url}/configs/${filename} -o ~/.config-downloads/
     done
