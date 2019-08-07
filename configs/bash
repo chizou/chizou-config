@@ -1,0 +1,8 @@
+PS1='\n\[\033[01;31m\][\d \t \u@\h - \w]$(__git_ps1)\n\[\033[0m\]\$ '
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias diff=colordiff
+export EDITOR=/usr/bin/vim
+export QUOTING_STYLE=literal
+set -o vi
