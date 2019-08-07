@@ -23,7 +23,7 @@ cp ${dl_dir}/screenrc ~/.screenrc
 # Setup vim
 mkdir -p ~/.vim/{backups,swapfiles}
 cp ${dl_dir}/vimrc ~/.vimrc
-curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim -c ':PlugInstall | :q | :q'
 
