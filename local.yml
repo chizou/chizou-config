@@ -1,5 +1,14 @@
 - hosts: localhost
   become: true
   tasks:
-  - name: Install ifconfig
-    apt: name=net-tools
+  - name: Install packages
+    apt: name={{item}}
+    with_items:
+      - curl
+      - git
+      - libusb-1.0
+      - net-tools
+      - python3
+      - python3-pip
+      - screen
+      - vim
