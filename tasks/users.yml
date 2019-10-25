@@ -1,0 +1,7 @@
+- name: copy sudoers file
+  copy:
+    src: configs/achou_sudoers
+    dest: /etc/sudoers.d/achou
+    owner: root
+    group: root
+    mode: '0400'

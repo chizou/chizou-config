@@ -1,14 +1,12 @@
 - hosts: localhost
   become: true
+  pre_tasks:
+    - name: update repositories
+      apt: update_cache=yes
+      changed_when: False
+
   tasks:
-  - name: Install packages
-    apt: name={{item}}
-    with_items:
-      - curl
-      - git
-      - libusb-1.0
-      - net-tools
-      - python3
-      - python3-pip
-      - screen
-      - vim
+    - include: tasks/packages.yml
+    - include: tasks/cron.yml
+    - include: tasks/users.yml
+    - include: tasks/copy_files.yml

@@ -1,0 +1,7 @@
+- name: install cron job
+  cron: 
+    name: "rotate keys"
+    user: "{{ lookup('env', 'SUDO_USER')}}"
+    minute: "0"
+    hour: "3"
+    job: "/home/{{ lookup('env', 'SUDO_USER')}}/.aws/rotate.sh > /home/{{ lookup('env', 'SUDO_USER')}}/.aws/roate.log"

@@ -1,0 +1,26 @@
+[alias]
+    co = checkout
+    st = status
+    gr = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+    ci = commit -S
+    commit = commit -S
+    patch = "!git --no-pager diff"
+[user]
+    name = Adam Chou
+[push]
+    default = simple
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = vim
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+[commit]
+    gpgsign = true
+[gpg]
+    program = gpg
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+[url "ssh://git@bitbucket.org/"]
+    insteadOf = https://bitbucket.org/
+[fetch]
+    prune = true
