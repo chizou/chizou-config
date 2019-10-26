@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: adam-ubuntu
   become: true
   pre_tasks:
     - name: update repositories
