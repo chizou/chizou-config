@@ -12,4 +12,4 @@
     - include: tasks/packages.yml
     - include: tasks/cron.yml
     - include: tasks/users.yml
-    - include: tasks/copy_files.yml
+    - include: tasks/setup_apps.yml
