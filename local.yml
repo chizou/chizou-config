@@ -1,5 +1,8 @@
 - hosts: localhost
   become: true
+  module_defaults:
+    apt:
+      force_apt_get: yes
   pre_tasks:
     - name: update repositories
       apt: update_cache=yes
