@@ -28,9 +28,10 @@
       group: achou
       mode: '0640'
 
-      #- name: Install vim plugins
-      #  command: 'vim -c '':PlugInstall | :q | :q'''
-      #  register: plugininstall
+      #- name: setup vim
+      #  shell:  vim -c ':PlugInstall | :q | :q'
+      #  args:
+      #      executable: /bin/bash
 
 - name: setup ssh
   copy:
