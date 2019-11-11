@@ -10,5 +10,5 @@ Run these additional steps after install
 2. Set the GPG key in git
     a. gpg --import <gpg-key-file> 
     or
-    b. git config --global user.signinkey $(gpg --list-secret-keys --keyid-format LONG | grep -E '^sec' | sed -r  "s/.*\/([A-F0-9]+).*/\\1/")
+    b. git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG | grep -E '^sec' | sed -r  "s/.*\/([A-F0-9]+).*/\\1/")
 3. vim -c ':PlugInstall | :q | :q'

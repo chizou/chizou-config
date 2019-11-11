@@ -13,3 +13,4 @@
     - include: tasks/cron.yml
     - include: tasks/users.yml
     - include: tasks/setup_apps.yml
+    - include: tasks/pip.yml
