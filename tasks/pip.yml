@@ -2,6 +2,7 @@
     executable: pip3
     name:
         - awscli
+        - aws-sam-cli
         - boto3
         - flake8
         - pre-commit
