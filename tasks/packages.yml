@@ -12,3 +12,9 @@
           - python3-pip
           - screen
           - vim
+
+- name: nvm
+  shell: >
+    curl -o https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
