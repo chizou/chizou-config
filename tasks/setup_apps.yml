@@ -57,6 +57,14 @@
       group: achou
       mode: '0640'
 
+- name: setup gpg
+  copy:
+    src: configs/gpg.conf
+    dest: /home/achou/.gnupg/gpg.conf
+    owner: achou
+    group: achou
+    mode: '0664'
+
 # Configure git
 - name: copy gitconfig file
   copy:
