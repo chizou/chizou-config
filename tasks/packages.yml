@@ -5,6 +5,7 @@
           - colordiff
           - curl
           - git
+          - gnupg2
           - jq
           - libusb-1.0-0
           - net-tools
