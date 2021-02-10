@@ -21,3 +21,4 @@ export QUOTING_STYLE=literal
 [[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
 set -o vi
 complete -C '/usr/local/bin/aws_completer' aws
+export GPG_TTY=$(tty)
