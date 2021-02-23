@@ -24,14 +24,12 @@
     curl -o https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
   args:
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    warn: no
 
 - name: Add Docker GPG key
   apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
       state: present
-
-- name: Add Docker Repository
-  apt_repository:
 
 - name: Add Docker Repository
   apt_repository:
