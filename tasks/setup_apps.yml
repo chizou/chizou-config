@@ -85,21 +85,17 @@
     mode: '0664'
 
 # Configure git
-- name: copy gitconfig file
+- name: copy gitconfig files
   copy:
-      src: configs/gitconfig
-      dest: /home/achou/.gitconfig
+      src: "configs/{{ item }}"
+      dest: "/home/achou/{{ item }}"
       owner: achou
       group: achou
       mode: '0640'
-
-- name: copy gitconfig file
-  copy:
-      src: configs/gitconfig.personal
-      dest: /home/achou/.gitconfig.personal
-      owner: achou
-      group: achou
-      mode: '0640'
+   loop:
+       - .gitconfig
+       - .gitconfig.personal
+       - .gitconfig.work
 
 - name: install git ps1
   get_url:

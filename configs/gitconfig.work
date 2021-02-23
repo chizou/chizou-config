@@ -7,7 +7,7 @@
     patch = "!git --no-pager diff"
 [user]
     name = Adam Chou
-    email = 8129778+chizou@users.noreply.github.com
+    email =
     signingkey = 
 [push]
     default = simple
@@ -20,7 +20,5 @@
     program = gpg
 [url "ssh://git@github.com/"]
     insteadOf = https://github.com/
-[url "ssh://git@bitbucket.org/"]
-    insteadOf = https://bitbucket.org/
 [fetch]
     prune = true

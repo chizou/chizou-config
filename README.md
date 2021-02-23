@@ -12,3 +12,6 @@ Run these additional steps after install
     or  
     b. `git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG | grep -E '^sec' | sed -r  "s/.*\/([A-F0-9]+).*/\\1/")`
 3. vim -c ':PlugInstall | :q | :q'
+
+## Git configuration
+Edit ~/.gitconfig.work and add the signing key

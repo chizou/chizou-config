@@ -1,4 +1,4 @@
 [include]
     path = ~/.gitconfig.personal
-[includeIf "gitdir:~/work/github"]
+[includeIf "gitdir:~/work/github/"]
     path = ~/.gitconfig.work
