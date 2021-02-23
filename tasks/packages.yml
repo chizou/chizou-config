@@ -1,7 +1,10 @@
 - name: Install packages
   apt: 
-      state: present
+      state: latest 
+      update_cache: yes
       name:
+          - apt-transport-https
+          - ca-certificates
           - colordiff
           - curl
           - git
@@ -12,6 +15,7 @@
           - python3
           - python3-pip
           - screen
+          - software-properties-common
           - vim
           - whois
 
@@ -20,3 +24,22 @@
     curl -o https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
   args:
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: Add Docker GPG key
+  apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+- name: Add Docker Repository
+  apt_repository:
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install docker-ce
+  apt:
+      state: latest
+      update_cache: yes
+      name: docker-ce
