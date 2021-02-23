@@ -1,5 +1,5 @@
 # Install
-`ansible-playbook local.yml`
+`ansible-playbook local.yml -v`
 
 # Additional Steps
 

@@ -33,6 +33,18 @@
       #  args:
       #      executable: /bin/bash
 
+
+- name: Create home dirs
+  file:
+      path: "/home/achou/{{ item }}"
+      state: directory
+      owner: achou
+      group: achou
+      mode: '0755'
+  loop:
+      - .ssh
+      - .gnupg
+
 - name: setup ssh
   copy:
       src: configs/authorized_keys
@@ -48,6 +60,12 @@
       owner: achou
       group: achou
       mode: '0640'
+
+- name: screenrc run dir
+  file:
+      path: /run/screen
+      state: directory
+      mode: '0777'
 
 - name: copy screenrc file
   copy:
