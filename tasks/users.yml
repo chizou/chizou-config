@@ -5,3 +5,10 @@
     owner: root
     group: root
     mode: '0400'
+
+- name: Add user to docker gorup
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  become: yes
