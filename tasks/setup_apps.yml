@@ -44,6 +44,7 @@
   loop:
       - .ssh
       - .gnupg
+      - work/github
 
 - name: setup ssh
   copy:
@@ -88,6 +89,14 @@
   copy:
       src: configs/gitconfig
       dest: /home/achou/.gitconfig
+      owner: achou
+      group: achou
+      mode: '0640'
+
+- name: copy gitconfig file
+  copy:
+      src: configs/gitconfig.personal
+      dest: /home/achou/.gitconfig.personal
       owner: achou
       group: achou
       mode: '0640'
