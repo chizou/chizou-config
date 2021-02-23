@@ -33,6 +33,16 @@
       #  args:
       #      executable: /bin/bash
 
+
+- name: Create dirs
+  file:
+      path: /home/achou/{{ item }}
+      state: directory
+      mode: '0755'
+  loop:
+      - .ssh
+      - .gnupg
+
 - name: setup ssh
   copy:
       src: configs/authorized_keys
