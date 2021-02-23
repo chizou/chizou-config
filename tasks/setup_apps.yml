@@ -42,7 +42,7 @@
       group: achou
       mode: '0755'
   loop:
-      - ssh
+      - .ssh
       - .gnupg
 
 - name: setup ssh
