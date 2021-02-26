@@ -14,7 +14,7 @@
       group: achou
       mode: '0750'
       state: directory
-  with_items:
+  loop:
       - '/home/achou/.vim'
       - '/home/achou/.vim/backups'
       - '/home/achou/.vim/swapfiles'
@@ -43,7 +43,6 @@
       mode: '0755'
   loop:
       - .ssh
-      - .gnupg
       - work/github
 
 - name: setup ssh
@@ -76,13 +75,21 @@
       group: achou
       mode: '0640'
 
+- name: setup gpg dir
+  file:
+      path: /home/achou/.gnupg
+      state: directory
+      owner: achou
+      group: achou
+      mode: '0700'
+
 - name: setup gpg
   copy:
-    src: configs/gpg.conf
-    dest: /home/achou/.gnupg/gpg.conf
-    owner: achou
-    group: achou
-    mode: '0664'
+      src: configs/gpg.conf
+      dest: /home/achou/.gnupg/gpg.conf
+      owner: achou
+      group: achou
+      mode: '0664'
 
 # Configure git
 - name: copy gitconfig files
@@ -92,10 +99,10 @@
       owner: achou
       group: achou
       mode: '0640'
-   loop:
-       - .gitconfig
-       - .gitconfig.personal
-       - .gitconfig.work
+  loop:
+       - gitconfig
+       - gitconfig.personal
+       - gitconfig.work
 
 - name: install git ps1
   get_url:
