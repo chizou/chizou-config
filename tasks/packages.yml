@@ -41,3 +41,8 @@
       state: latest
       update_cache: yes
       name: docker-ce
+
+- name: Add deadsnakes PPA repo
+  apt_repository:
+      repo: 'ppa:deadsnakes/ppa'
+      state: present

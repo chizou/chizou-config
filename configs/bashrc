@@ -23,11 +23,6 @@ set -o vi
 complete -C '/usr/local/bin/aws_completer' aws
 export GPG_TTY=$(tty)
 
-#Virtualenvwrapper settings:
-export WORKON_HOME=$HOME/.virtualenvs
-VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-. /usr/local/bin/virtualenvwrapper.sh
-
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
         PATH="$HOME/bin:$PATH"
