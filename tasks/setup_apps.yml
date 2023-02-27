@@ -1,0 +1,129 @@
+# Setup vim
+- name: copy vim file
+  copy:
+      src: configs/vimrc
+      dest: "{{ user_home }}/.vimrc"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+
+- name: vim dirs
+  file:
+      path: "{{ item }}"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0750'
+      state: directory
+  loop:
+      - "{{ user_home }}/.vim"
+      - "{{ user_home }}/.vim/backups"
+      - "{{ user_home }}/.vim/swapfiles"
+      - "{{ user_home }}/.vim/autoload"
+
+- name: Install vim-plug
+  get_url:
+      url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      dest: "{{ user_home }}/.vim/autoload/plug.vim"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+
+      #- name: setup vim
+      #  shell:  vim -c ':PlugInstall | :q | :q'
+      #  args:
+      #      executable: /bin/bash
+
+
+- name: Create home dirs
+  file:
+      path: "{{ user_home }}/{{ item }}"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0755'
+  loop:
+      - .ssh
+      - work/github
+
+- name: setup ssh
+  copy:
+      src: configs/authorized_keys
+      dest: "{{ user_home }}/.ssh/authorized_keys"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0440'
+
+- name: copy bashrc file
+  copy:
+      src: configs/bashrc
+      dest: "{{ user_home }}/.bashrc"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+
+- name: screenrc run dir
+  file:
+      path: /run/screen
+      state: directory
+      mode: '0777'
+
+- name: copy screenrc file
+  copy:
+      src: configs/screenrc
+      dest: "{{ user_home }}/.screenrc"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+
+- name: setup gpg dir
+  file:
+      path: "{{ user_home }}/.gnupg"
+      state: directory
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0700'
+
+- name: setup gpg
+  copy:
+      src: configs/gpg.conf
+      dest: "{{ user_home }}/.gnupg/gpg.conf"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0664'
+
+# Configure git
+- name: copy gitconfig files
+  copy:
+      src: "configs/{{ item }}"
+      dest: "{{ user_home }}/.{{ item }}"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+  loop:
+       - gitconfig
+       - gitconfig.personal
+       - gitconfig.work
+       - git-completion.bash
+
+- name: set work e-mail
+  replace:
+    dest: "{{ user_home }}/.gitconfig.work"
+    regexp: 'username'
+    replace: "{{ username }}"
+
+- name: install git ps1
+  get_url:
+      url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+      dest: "{{ user_home }}/.git-prompt.sh"
+      owner: "{{ username }}"
+      group: "{{ username }}"
+      mode: '0640'
+
+- name: install diff-so-fancy
+  get_url:
+      url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+      dest: /usr/local/bin/diff-so-fancy
+      owner: root
+      group: root
+      mode: '755'
+

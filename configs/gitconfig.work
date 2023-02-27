@@ -1,0 +1,6 @@
+[user]
+    name = Adam Chou
+    email = username@adobe.com
+    signingkey = ED97C0D56B983B39
+[url "ssh://git@git.corp.adobe.com/"]
+    insteadOf = https://git.corp.adobe.com/

@@ -1,0 +1,44 @@
+source ~/.git-prompt.sh
+PS1='\n\[\033[01;31m\][\d \t \u@\h - \w]$(__git_ps1)\n\[\033[0m\]\$ '
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias diff=colordiff
+export EDITOR=/usr/bin/vim
+export QUOTING_STYLE=literal
+[[ -r $NVM_DIR/bash_completion ]] && \. $NVM_DIR/bash_completion
+set -o vi
+complete -C '/usr/local/bin/aws_completer' aws
+export GPG_TTY=$(tty)
+export SCREENDIR=$HOME/.screen
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+        PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+        PATH="$HOME/.local/bin:$PATH"
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+if [[ -f ".env/bin/activate" ]]; then
+    . .env/bin/activate
+fi
+
+. ~/.git-completion.bash

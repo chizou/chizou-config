@@ -1,0 +1,7 @@
+- name: install cron job
+  cron: 
+    name: "rotate keys"
+    user: "{{ username }}"
+    minute: "0"
+    hour: "3"
+    job: "{{ user_home }}/.aws/rotate.sh > {{ user_home }}/.aws/rotate.log"

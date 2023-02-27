@@ -1,0 +1,20 @@
+- name: copy sudoers file
+  copy:
+    src: configs/sudoers
+    dest: "/etc/sudoers.d/{{ username }}"
+    owner: root
+    group: root
+    mode: '0400'
+
+- name: set sudoers username
+  replace:
+    dest: "/etc/sudoers.d/{{ username }}"
+    regexp: 'username'
+    replace: "{{ username }}"
+
+- name: Add user to docker gorup
+  user:
+    name: "{{ username }}"
+    groups: docker
+    append: yes
+  become: yes

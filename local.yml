@@ -1,0 +1,23 @@
+- hosts: localhost
+  become: true
+  module_defaults:
+    apt:
+      force_apt_get: yes
+  pre_tasks:
+    - name: update repositories
+      apt: update_cache=yes
+      changed_when: False
+
+  tasks:
+    - name: Get Ubuntu release
+      command: "lsb_release -cs"
+      register: release
+    - set_fact: 
+        username: "{{ lookup('env', 'USER') }}"
+        user_home: "{{ lookup('env', 'HOME') }}"
+        ubuntu_release: "{{ release.stdout }}"
+    - include: tasks/packages.yml
+    - include: tasks/cron.yml
+    - include: tasks/users.yml
+    - include: tasks/setup_apps.yml
+    - include: tasks/pip.yml

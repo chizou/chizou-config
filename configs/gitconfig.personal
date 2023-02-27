@@ -1,0 +1,8 @@
+[user]
+    name = Adam Chou
+    email = 8129778+chizou@users.noreply.github.com
+    signingkey = FF57746E8B649B4C
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+[url "ssh://git@bitbucket.org/"]
+    insteadOf = https://bitbucket.org/
