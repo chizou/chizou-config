@@ -23,3 +23,10 @@
     enabled: true
     state: started
   failed_when: false
+
+- name: Disable systemd-binfmt on WSL
+  ansible.builtin.systemd:
+    name: systemd-binfmt.service
+    state: stopped
+    masked: true
+  when: "'microsoft' in (ansible_facts.get('kernel', '') | lower)"

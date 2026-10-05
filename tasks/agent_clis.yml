@@ -1,0 +1,50 @@
+- name: Install Codex CLI with NVM-managed npm
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    source "{{ user_home }}/.nvm/nvm.sh"
+    nvm use "{{ node_version }}" >/dev/null
+    npm install --global "@openai/codex@{{ codex_cli_version }}"
+  args:
+    executable: /bin/bash
+  register: codex_cli_install
+  changed_when: >-
+    'added' in codex_cli_install.stdout or
+    'changed' in codex_cli_install.stdout or
+    'removed' in codex_cli_install.stdout
+  when: install_codex_cli | bool
+
+- name: Install Cursor CLI
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl --fail --silent --show-error --location \
+      "{{ cursor_cli_install_url }}" | bash
+  args:
+    executable: /bin/bash
+    creates: "{{ user_home }}/.local/bin/agent"
+  when: install_cursor_cli | bool
+
+- name: Verify Codex CLI
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    source "{{ user_home }}/.nvm/nvm.sh"
+    codex --version
+  args:
+    executable: /bin/bash
+  changed_when: false
+  when: install_codex_cli | bool
+
+- name: Verify Cursor CLI
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.command:
+    argv:
+      - "{{ user_home }}/.local/bin/agent"
+      - --version
+  changed_when: false
+  when: install_cursor_cli | bool

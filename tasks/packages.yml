@@ -1,3 +1,14 @@
+- name: Keep plocate from indexing Windows drives under WSL
+  ansible.builtin.copy:
+    dest: /etc/updatedb.conf
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      PRUNE_BIND_MOUNTS="yes"
+      PRUNEPATHS="/mnt /tmp /var/spool /media /var/lib/os-prober /var/lib/ceph /home/.ecryptfs /var/lib/schroot"
+      PRUNEFS="NFS afs autofs binfmt_misc ceph cgroup cgroup2 cifs coda configfs curlftpfs debugfs devfs devpts devtmpfs drvfs ecryptfs ftpfs fuse.ceph fuse.cryfs fuse.encfs fuse.glusterfs fuse.gocryptfs fuse.gvfsd-fuse fuse.mfs fuse.rclone fuse.rozofs fuse.sshfs fusectl fusesmb hugetlbfs iso9660 lustre lustre_lite mfs mqueue ncpfs nfs nfs4 ocfs2 proc pstore redfs rpc_pipefs securityfs shfs smbfs sysfs tmpfs tracefs udev udf usbfs"
+
 - name: Install base packages
   ansible.builtin.apt:
     state: present
@@ -67,7 +78,8 @@
     nvm alias default "{{ node_version }}"
   args:
     executable: /bin/bash
-    creates: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}"
+  register: nvm_node_install
+  changed_when: "'Downloading and installing node' in nvm_node_install.stdout"
 
 - name: Create APT keyring directory
   ansible.builtin.file:

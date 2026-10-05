@@ -1,0 +1,27 @@
+- name: Ensure the local CA directory exists
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: install_dod_ca_certificates | bool
+
+- name: Install public DoD CA certificates
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/usr/local/share/ca-certificates/{{ item | basename }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ query('fileglob', playbook_dir + '/configs/ca-certificates/*.crt') }}"
+  register: dod_ca_copy
+  when: install_dod_ca_certificates | bool
+
+- name: Refresh the system CA trust store
+  ansible.builtin.command: update-ca-certificates
+  register: ca_update
+  changed_when: "'0 added, 0 removed' not in ca_update.stdout"
+  when:
+    - install_dod_ca_certificates | bool
+    - dod_ca_copy.changed

@@ -63,6 +63,9 @@ Passwordless sudo is disabled by default. Enable it only by setting
 
 - Node.js 24 through NVM
 - Docker Engine and Compose/Buildx plugins
-- Python command-line tools isolated with `pipx`
+- Python command-line tools isolated with `uv`
+- Codex CLI through NVM-managed npm
+- Cursor CLI through its official Linux/WSL installer
+- Public DoD CA certificates installed into the system trust store
 - Optional Python 3.10 through Deadsnakes
 - No CUDA or Anaconda installation

@@ -58,5 +58,7 @@
     - ansible.builtin.import_tasks: tasks/cron.yml
     - ansible.builtin.import_tasks: tasks/users.yml
     - ansible.builtin.import_tasks: tasks/setup_apps.yml
+    - ansible.builtin.import_tasks: tasks/certificates.yml
+    - ansible.builtin.import_tasks: tasks/agent_clis.yml
     - ansible.builtin.import_tasks: tasks/pip.yml
     - ansible.builtin.import_tasks: tasks/services.yml

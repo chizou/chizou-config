@@ -6,14 +6,26 @@
     group: "{{ username }}"
     mode: "0750"
 
-- name: Install Python command-line applications with pipx
+- name: Install uv
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl --fail --silent --show-error --location \
+      "https://astral.sh/uv/{{ uv_version }}/install.sh" | \
+      env UV_INSTALL_DIR="{{ user_home }}/.local/bin" UV_NO_MODIFY_PATH=1 sh
+  args:
+    executable: /bin/bash
+    creates: "{{ user_home }}/.local/bin/uv"
+
+- name: Install Python command-line applications with uv
   become: true
   become_user: "{{ username }}"
   ansible.builtin.command:
     argv:
-      - pipx
+      - "{{ user_home }}/.local/bin/uv"
+      - tool
       - install
-      - --include-deps
       - "{{ item }}"
   loop:
     - awscli
@@ -24,11 +36,5 @@
     - ruff
     - virtualenv
     - yq
-  register: pipx_install
-  changed_when: "'installed package' in pipx_install.stdout"
-
-- name: Add pipx applications to PATH
-  become: true
-  become_user: "{{ username }}"
-  ansible.builtin.command: pipx ensurepath
-  changed_when: false
+  register: uv_tool_install
+  changed_when: "'Installed' in uv_tool_install.stderr"
