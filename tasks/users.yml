@@ -1,0 +1,22 @@
+- name: Install opt-in passwordless sudo rule
+  ansible.builtin.template:
+    src: templates/sudoers.j2
+    dest: "/etc/sudoers.d/chizou-config-{{ username }}"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: /usr/sbin/visudo -cf %s
+  when: enable_passwordless_sudo | bool
+
+- name: Remove managed passwordless sudo rule when disabled
+  ansible.builtin.file:
+    path: "/etc/sudoers.d/chizou-config-{{ username }}"
+    state: absent
+  when: not enable_passwordless_sudo | bool
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: docker
+    append: true
+  when: install_docker | bool

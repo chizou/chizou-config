@@ -1,0 +1,15 @@
+# Copy this file to vars/local.yml or run scripts/prime.sh.
+# vars/local.yml is ignored by Git.
+username: "your_linux_username"
+user_home: "/home/your_linux_username"
+
+git_user_name: "Your Name"
+git_user_email: "your-address@users.noreply.github.com"
+# A signing-key ID is public metadata. Leave blank to disable commit signing.
+git_signing_key: ""
+
+# Put one or more public SSH keys in local/authorized_keys to install them.
+authorized_keys_file: "{{ playbook_dir }}/local/authorized_keys"
+
+# Explicit opt-in. The default is false.
+enable_passwordless_sudo: false

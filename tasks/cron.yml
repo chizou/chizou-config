@@ -1,0 +1,21 @@
+- name: Check for the AWS key rotation script
+  ansible.builtin.stat:
+    path: "{{ user_home }}/.aws/rotate.sh"
+  register: aws_rotate_script
+
+- name: Install AWS key-rotation cron job
+  ansible.builtin.cron:
+    name: "rotate keys"
+    user: "{{ username }}"
+    minute: "0"
+    hour: "3"
+    job: >-
+      {{ user_home }}/.aws/rotate.sh > {{ user_home }}/.aws/rotate.log 2>&1
+  when: aws_rotate_script.stat.exists
+
+- name: Remove key-rotation cron job when its script is absent
+  ansible.builtin.cron:
+    name: "rotate keys"
+    user: "{{ username }}"
+    state: absent
+  when: not aws_rotate_script.stat.exists

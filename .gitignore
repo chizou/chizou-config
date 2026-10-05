@@ -1,0 +1,36 @@
+# Machine-local Ansible inputs created by scripts/prime.sh
+/vars/local.yml
+/vars/private.yml
+/local/
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.kdbx
+id_rsa*
+id_ed25519*
+credentials*
+
+# Migration archives and generated output
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+SHA256SUMS
+/output/
+/outputs/
+/migration/
+
+# Ansible and editor state
+*.retry
+.ansible/
+.cache/
+.idea/
+.vscode/
+*~
+*.swp

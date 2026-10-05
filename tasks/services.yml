@@ -1,0 +1,25 @@
+- name: Enable required services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - cron
+    - ssh
+
+- name: Enable Docker services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - containerd
+    - docker
+  when: install_docker | bool
+
+- name: Enable unattended upgrades when installed
+  ansible.builtin.systemd:
+    name: unattended-upgrades
+    enabled: true
+    state: started
+  failed_when: false

@@ -1,0 +1,35 @@
+- git_config:
+    name: alias.ci
+    scope: global
+    value: commit -S
+
+- git_config:
+    name: commit
+    scope: global
+    value: commit -S
+
+- git_config:
+    name: alias.co
+    scope: global
+    value: checkout
+
+- git_config:
+    name: alias.st
+    scope: global
+    value: status
+
+- git_config:
+    name: alias.gr
+    scope: global
+    value: log --graph --full-history --all --color --pretty=tformat:%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m
+
+- git_config:
+    name: alias.patch
+    scope: global
+    value: !git --no-pager diff
+
+- git_config:
+    name: alias.patch
+    scope: global
+    value: !git --no-pager diff
+

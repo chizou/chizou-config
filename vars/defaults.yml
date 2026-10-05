@@ -1,0 +1,14 @@
+username: "{{ lookup('env', 'USER') }}"
+user_home: "{{ lookup('env', 'HOME') }}"
+
+git_user_name: ""
+git_user_email: ""
+git_signing_key: ""
+authorized_keys_file: "{{ playbook_dir }}/local/authorized_keys"
+
+enable_passwordless_sudo: false
+install_docker: true
+install_deadsnakes: true
+legacy_python_version: "3.10"
+node_version: "24"
+nvm_version: "v0.40.3"

@@ -1,0 +1,34 @@
+- name: Ensure the user-local binary directory exists
+  ansible.builtin.file:
+    path: "{{ user_home }}/.local/bin"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+
+- name: Install Python command-line applications with pipx
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.command:
+    argv:
+      - pipx
+      - install
+      - --include-deps
+      - "{{ item }}"
+  loop:
+    - awscli
+    - aws-sam-cli
+    - flake8
+    - pre-commit
+    - pycodestyle
+    - ruff
+    - virtualenv
+    - yq
+  register: pipx_install
+  changed_when: "'installed package' in pipx_install.stdout"
+
+- name: Add pipx applications to PATH
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.command: pipx ensurepath
+  changed_when: false

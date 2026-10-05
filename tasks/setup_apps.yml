@@ -1,0 +1,113 @@
+- name: Copy Vim configuration
+  ansible.builtin.copy:
+    src: configs/vimrc
+    dest: "{{ user_home }}/.vimrc"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+
+- name: Create Vim directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0750"
+    state: directory
+  loop:
+    - "{{ user_home }}/.vim"
+    - "{{ user_home }}/.vim/backups"
+    - "{{ user_home }}/.vim/swapfiles"
+    - "{{ user_home }}/.vim/autoload"
+
+- name: Install vim-plug
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ user_home }}/.vim/autoload/plug.vim"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+
+- name: Create SSH directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0700"
+
+- name: Check for local authorized keys
+  ansible.builtin.stat:
+    path: "{{ authorized_keys_file }}"
+  register: local_authorized_keys
+
+- name: Install local authorized keys
+  ansible.builtin.copy:
+    src: "{{ authorized_keys_file }}"
+    dest: "{{ user_home }}/.ssh/authorized_keys"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0600"
+  when: local_authorized_keys.stat.exists
+
+- name: Copy shell and screen configuration
+  ansible.builtin.copy:
+    src: "configs/{{ item.src }}"
+    dest: "{{ user_home }}/{{ item.dest }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+  loop:
+    - {src: bashrc, dest: .bashrc}
+    - {src: screenrc, dest: .screenrc}
+    - {src: git-completion.bash, dest: .git-completion.bash}
+
+- name: Create GPG configuration directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.gnupg"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0700"
+
+- name: Copy GPG configuration
+  ansible.builtin.copy:
+    src: configs/gpg.conf
+    dest: "{{ user_home }}/.gnupg/gpg.conf"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0600"
+
+- name: Copy generic Git configuration
+  ansible.builtin.copy:
+    src: configs/gitconfig
+    dest: "{{ user_home }}/.gitconfig"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+
+- name: Install local Git identity configuration
+  ansible.builtin.template:
+    src: templates/gitconfig.local.j2
+    dest: "{{ user_home }}/.gitconfig.local"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0600"
+  when:
+    - git_user_name | length > 0
+    - git_user_email | length > 0
+
+- name: Install Git prompt
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+    dest: "{{ user_home }}/.git-prompt.sh"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0640"
+
+- name: Install diff-so-fancy
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    dest: /usr/local/bin/diff-so-fancy
+    owner: root
+    group: root
+    mode: "0755"

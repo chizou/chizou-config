@@ -1,0 +1,62 @@
+- name: Configure Ubuntu development environment
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - vars/defaults.yml
+  module_defaults:
+    ansible.builtin.apt:
+      force_apt_get: true
+  pre_tasks:
+    - name: Check for private defaults
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/vars/private.yml"
+      register: private_defaults
+
+    - name: Load private defaults
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/vars/private.yml"
+      when: private_defaults.stat.exists
+
+    - name: Check for machine-local overrides
+      ansible.builtin.stat:
+        path: "{{ playbook_dir }}/vars/local.yml"
+      register: local_overrides
+
+    - name: Load machine-local overrides
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/vars/local.yml"
+      when: local_overrides.stat.exists
+
+    - name: Require Ubuntu
+      ansible.builtin.assert:
+        that:
+          - ansible_distribution == "Ubuntu"
+        fail_msg: "This playbook supports Ubuntu only."
+
+    - name: Validate local configuration
+      ansible.builtin.assert:
+        that:
+          - username | length > 0
+          - user_home | length > 0
+          - not enable_passwordless_sudo | bool or username != "root"
+        fail_msg: "Run scripts/prime.sh or review vars/local.yml before continuing."
+
+    - name: Set distribution facts
+      ansible.builtin.set_fact:
+        ubuntu_release: "{{ ansible_distribution_release }}"
+        docker_arch: "{{ {'x86_64': 'amd64', 'aarch64': 'arm64'}.get(ansible_architecture, ansible_architecture) }}"
+
+    - name: Update APT repositories
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      changed_when: false
+
+  tasks:
+    - ansible.builtin.import_tasks: tasks/packages.yml
+    - ansible.builtin.import_tasks: tasks/cron.yml
+    - ansible.builtin.import_tasks: tasks/users.yml
+    - ansible.builtin.import_tasks: tasks/setup_apps.yml
+    - ansible.builtin.import_tasks: tasks/pip.yml
+    - ansible.builtin.import_tasks: tasks/services.yml

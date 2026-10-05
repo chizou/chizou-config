@@ -1,0 +1,109 @@
+- name: Install base packages
+  ansible.builtin.apt:
+    state: present
+    update_cache: true
+    name:
+      - ansible
+      - build-essential
+      - ca-certificates
+      - colordiff
+      - cron
+      - curl
+      - fd-find
+      - git
+      - gnupg2
+      - jq
+      - libnss3-tools
+      - libusb-1.0-0
+      - ncdu
+      - net-tools
+      - openssh-server
+      - pipx
+      - plocate
+      - python3
+      - python3-venv
+      - r-base
+      - r-base-dev
+      - ripgrep
+      - screen
+      - software-properties-common
+      - unzip
+      - vim
+      - whois
+
+- name: Add Deadsnakes PPA for the optional legacy Python
+  ansible.builtin.apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+    update_cache: true
+  when: install_deadsnakes | bool
+
+- name: Install optional legacy Python
+  ansible.builtin.apt:
+    state: present
+    name:
+      - "python{{ legacy_python_version }}"
+      - "python{{ legacy_python_version }}-venv"
+  when: install_deadsnakes | bool
+
+- name: Install NVM for the target user
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl --fail --silent --show-error --location \
+      "https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh" | bash
+  args:
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/nvm.sh"
+
+- name: Install Node LTS with NVM
+  become: true
+  become_user: "{{ username }}"
+  ansible.builtin.shell: |
+    set -o pipefail
+    source "{{ user_home }}/.nvm/nvm.sh"
+    nvm install "{{ node_version }}"
+    nvm alias default "{{ node_version }}"
+  args:
+    executable: /bin/bash
+    creates: "{{ user_home }}/.nvm/versions/node/v{{ node_version }}"
+
+- name: Create APT keyring directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: install_docker | bool
+
+- name: Install Docker repository signing key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    owner: root
+    group: root
+    mode: "0644"
+  when: install_docker | bool
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [arch={{ docker_arch }} signed-by=/etc/apt/keyrings/docker.asc]
+      https://download.docker.com/linux/ubuntu {{ ubuntu_release }} stable
+    state: present
+    filename: docker
+    update_cache: true
+  when: install_docker | bool
+
+- name: Install Docker Engine and plugins
+  ansible.builtin.apt:
+    state: present
+    name:
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
+  when: install_docker | bool

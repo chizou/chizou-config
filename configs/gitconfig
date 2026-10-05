@@ -1,0 +1,16 @@
+[alias]
+    tree = log --graph --oneline --all
+    co = checkout
+    st = status
+    gr = log --graph --full-history --all --color --pretty=tformat:"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s%x20%x1b[33m(%an)%x1b[0m"
+    ci = commit
+    patch = "!git --no-pager diff"
+[push]
+    default = simple
+[core]
+    pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = vim
+[include]
+    path = ~/.gitconfig.local
+[fetch]
+    prune = true
