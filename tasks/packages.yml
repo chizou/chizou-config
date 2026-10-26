@@ -21,6 +21,7 @@
       - cron
       - curl
       - fd-find
+      - gh
       - git
       - gnupg2
       - jq
