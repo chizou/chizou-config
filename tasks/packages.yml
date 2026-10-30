@@ -15,6 +15,7 @@
     update_cache: true
     name:
       - ansible
+      - bind9-dnsutils
       - build-essential
       - ca-certificates
       - colordiff
