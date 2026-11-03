@@ -16,6 +16,8 @@ uv_version: "0.12.19"
 diff_so_fancy_version: "1.4.10"
 install_codex_cli: true
 codex_cli_version: "latest"
+install_opencode_cli: true
+opencode_cli_version: "latest"
 install_cursor_cli: true
 cursor_cli_install_url: "https://cursor.com/install"
 install_dod_ca_certificates: true

@@ -30,6 +30,7 @@
       - libusb-1.0-0
       - ncdu
       - net-tools
+      - nmap
       - openssh-server
       - pipx
       - plocate
@@ -40,6 +41,8 @@
       - ripgrep
       - screen
       - software-properties-common
+      - dhcping
+      - traceroute
       - unzip
       - vim
       - whois

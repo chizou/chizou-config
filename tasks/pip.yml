@@ -28,7 +28,6 @@
       - install
       - "{{ item }}"
   loop:
-    - awscli
     - aws-sam-cli
     - flake8
     - pre-commit
